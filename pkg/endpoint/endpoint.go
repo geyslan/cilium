@@ -350,6 +350,10 @@ type Endpoint struct {
 	isHost bool
 
 	noTrackPort uint16
+
+	// endpointSyncControllerName is the name of the endpoint controller
+	// used to synchronize the endpoint itself to kubernetes
+	endpointSyncControllerName string
 }
 
 // SetAllocator sets the identity allocator for this endpoint.
@@ -1961,6 +1965,10 @@ func (e *Endpoint) identityLabelsChanged(ctx context.Context, myChangeRev int) (
 	// assigned.
 	e.forcePolicyComputation()
 
+	// Trigger the sync-to-k8s-ciliumendpoint controller to sync the new
+	// endpoint's identity.
+	e.controllers.TriggerController(e.endpointSyncControllerName)
+
 	e.unlock()
 
 	if readyToRegenerate {
@@ -2334,4 +2342,13 @@ func (e *Endpoint) setDefaultPolicyConfig() {
 // GetCreatedAt returns the endpoint creation time.
 func (e *Endpoint) GetCreatedAt() time.Time {
 	return e.createdAt
+}
+
+// SetEndpointSyncControllerName sets the name of the endpoint controller used
+// to synchronize the endpoint itself to kubernetes.
+func (e *Endpoint) SetEndpointSyncControllerName(name string) {
+	e.mutex.Lock()
+	defer e.mutex.Unlock()
+
+	e.endpointSyncControllerName = name
 }

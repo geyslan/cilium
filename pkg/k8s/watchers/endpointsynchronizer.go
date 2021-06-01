@@ -90,6 +90,8 @@ func (epSync *EndpointSynchronizer) RunK8sCiliumEndpointSync(e *endpoint.Endpoin
 		needInit = true                    // needInit indicates that we may need to create the CEP
 	)
 
+	e.SetEndpointSyncControllerName(controllerName)
+
 	// NOTE: The controller functions do NOT hold the endpoint locks
 	e.UpdateController(controllerName,
 		controller.ControllerParams{
