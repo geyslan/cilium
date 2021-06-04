@@ -63,12 +63,12 @@ jobs:
           sudo pip install rstcheck
 
       - name: Check RST files (workflow_dispatch)
-        if: ${{ github.event_name == 'workflow_dispatch' }} && ${{ env.RST_FILES }}
+        if: ${{ github.event_name == 'workflow_dispatch' && env.RST_FILES }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report ${{ github.event.inputs.reporttype }}
 
       - name: Check RST files (pull_request)
-        if: ${{ github.event_name == 'pull_request' }} && ${{ env.RST_FILES }}
+        if: ${{ github.event_name == 'pull_request' && env.RST_FILES }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report error
 
