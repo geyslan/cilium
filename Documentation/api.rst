@@ -3,9 +3,9 @@
     WARNING: You are looking at unreleased Cilium documentation.
     Please use the official rendered version released here:
     https://docs.cilium.io
-  
-.. _api_ref:
  
+.. _api_ref:
+  
 #############
 API Reference
 #############
