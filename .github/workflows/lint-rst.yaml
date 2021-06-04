@@ -46,14 +46,14 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "RST_FILES<<EOF" >> $GITHUB_ENV
-          #git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep '\.rst$' >> $GITHUB_ENV
-          git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.rst$' >> $GITHUB_ENV
+          git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} | grep '\.rst$' >> $GITHUB_ENV
+          #git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.rst$' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-#      - name: RST files not found
-#        if: ${{ env.RST_FILES == '' }}
-#        run: |
-#          echo "RST files not found." && false
+      - name: RST files not found
+        if: ${{ env.RST_FILES == '' }}
+        run: |
+          echo "RST files not found." && false
 
       - name: Install rstcheck and dependencies
         run: |
