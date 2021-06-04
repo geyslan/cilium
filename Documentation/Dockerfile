@@ -1,5 +1,5 @@
 FROM docker.io/library/python:3.7.9-alpine3.11
-
+ 
 LABEL maintainer="maintainer@cilium.io"
 
 RUN apk add --no-cache --virtual --update \
