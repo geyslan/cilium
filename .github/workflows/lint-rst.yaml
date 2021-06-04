@@ -63,17 +63,17 @@ jobs:
           sudo pip install rstcheck
 
       - name: Check RST files (workflow_dispatch)
-        if: ${{ github.event_name == 'workflow_dispatch' && env.RST_FILES }}
+        if: ${{ (github.event_name == 'workflow_dispatch') && (env.RST_FILES) }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report ${{ github.event.inputs.reporttype }}
 
       - name: Check RST files (pull_request)
-        if: ${{ github.event_name == 'pull_request' && env.RST_FILES }}
+        if: ${{ (github.event_name == 'pull_request') && (env.RST_FILES) }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report error
 
       - name: Send slack notification
-        if: ${{ (cancelled() || failure()) && (github.event_name == 'schedule' || github.event_name == 'push') }}
+        if: ${{ (cancelled() || failure()) && (github.event_name == 'schedule' || github.event_name == 'pull_request') }}
         uses: 8398a7/action-slack@dcc8c8e9dd8802e21a712dc0c003db97b42efe43
         with:
           status: ${{ job.status }}
