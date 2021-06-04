@@ -56,19 +56,18 @@ jobs:
 #          echo "RST files not found." && false
 
       - name: Install rstcheck and dependencies
-        if: ${{ env.RST_FILES }}
         run: |
           sudo apt-get install python3-setuptools
           sudo python -m pip install --upgrade pip
           sudo pip install rstcheck
 
       - name: Check RST files (workflow_dispatch)
-        if: ${{ (github.event_name == 'workflow_dispatch') && (env.RST_FILES) }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report ${{ github.event.inputs.reporttype }}
 
       - name: Check RST files (pull_request)
-        if: ${{ (github.event_name == 'pull_request') && (env.RST_FILES) }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "${{ env.RST_FILES }}" | xargs rstcheck --report error
 
