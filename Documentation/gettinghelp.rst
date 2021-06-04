@@ -22,7 +22,7 @@ to maintain a list of questions asked by users. We suggest checking to see if
 your question is already answered.
 
 
-.. _slack:
+ .. _slack:
 
 Slack
 =====
