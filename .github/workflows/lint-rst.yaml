@@ -21,7 +21,7 @@ on:
         default: "./"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.after }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.pull_request.base.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -45,8 +45,9 @@ jobs:
       - name: Set RST files for checking (pull_request)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
+          cat $GITHUB_EVENT_PATH
           echo "RST_FILES<<EOF" >> $GITHUB_ENV
-          git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} | grep '\.rst$' >> $GITHUB_ENV
+          git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.base.ref }} | grep '\.rst$' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: RST files not found
