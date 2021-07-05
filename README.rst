@@ -24,7 +24,7 @@ Stable Releases
 The Cilium community maintains minor stable releases for the last three major
 Cilium versions. Older Cilium stable versions from major releases prior to that
 are considered EOL.
-
+ 
 For upgrades to new major releases please consult the `Cilium Upgrade Guide
 <https://docs.cilium.io/en/stable/operations/upgrade/>`_.
 
